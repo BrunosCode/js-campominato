@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- /Font Awesome -->
     <link rel="stylesheet" href="css/style.css">
     <title>Mined Field</title>
 </head>
@@ -12,10 +15,18 @@
         <div id="field"></div>
         <div class="console">
             <h1>Mined Field</h1>
-            <label id="inputLabelRows" for="rows">Choose a number of rows </label>
-            <input type="number" name="rows" id="rows" min="1" max="10">
-            <label id="inputLabelCols" for="cols">Choose a number of cols </label>
-            <input type="number" name="cols" id="cols" min="1" max="10">
+            <label for="rows">Rows x Cols
+                <select name="rows" id="rows">
+                    <option value="2">2x2</option>
+                    <option value="4">4x4</option>
+                    <option value="6">6x6</option>
+                    <option value="8">8x8</option>
+                    <option value="10">10x10</option>
+                </select>
+            </label>
+            <label for="mines">Mines 
+                <input type="number" name="mines" id="mines" min="1" max="16">
+            </label>
             <button id="startBtn" class="btn">Start</button>
             <div class="banner">
                 <h2 id="results"></h2>

@@ -18,73 +18,85 @@ main {
 /* Mined field */
 #field {
     width: 100vh;
-    max-width: 70vw;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
-    align-content: flex-start;
-    flex-wrap: wrap;
-    flex-grow: 0;
+    height: 100vh;
+    display: grid;
 }
+#field[data-rows="2"] {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+#field[data-rows="4"] {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+}
+#field[data-rows="6"] {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+#field[data-rows="8"] {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+#field[data-rows="10"] {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
 .cell {
     background-color: green;
     border: solid 1px black;
-    width: 10vh;
-    max-width: 70vw;
-    height: 10vh;
-    max-height: 70vw;
-}
-.digged {
-    background-color: rgb(80, 38, 38);
     display: flex;
     justify-content: center;
     align-items: center;
 }
+.cell::after {
+    font-family: "Font Awesome 5 Free"; 
+    font-weight: 900; 
+    content: "\f55f";
+    color: darkgreen;
+    font-size: 2rem
+}
+.digged {
+    background-color: rgb(80, 38, 38);
+}
 .digged.mined::after {
+    font-family: "Font Awesome 5 Free"; 
+    font-weight: 900; 
+    content: "\f1e2";
+    font-size: 2rem;
+    color: black;
+}
+[data-proximity="0"].digged::after {
     content: "";
-    height: 60%;
-    width: 60%;
-    background-color: black;
-    border-radius: 50%;
 }
 [data-proximity="1"].digged::after {
     content: "1";
-    height: 60%;
-    width: 60%;
     color: white;
 }
 [data-proximity="2"].digged::after {
     content: "2";
-    height: 60%;
-    width: 60%;
     color: white;
 }
 [data-proximity="3"].digged::after {
     content: "3";
-    height: 60%;
-    width: 60%;
     color: white;
 }
 [data-proximity="4"].digged::after {
     content: "4";
-    height: 60%;
-    width: 60%;
     color: white;
 }
 [data-proximity="5"].digged::after {
     content: "5";
-    height: 60%;
-    width: 60%;
     color: white;
 }
 
 
 /* UI console */
 .console {
-    background-color: #2c2c2c;
+    background-color: #202521;
     padding: 2rem;
     color: #d3d2d2;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -100,6 +112,8 @@ input {
     background-color: #d3d2d2;
     border: none;
     border-radius: .5rem;
+    margin-left: 1rem;
+    width: 5rem;
 }
 .btn {
     width: 5rem;
