@@ -1,0 +1,124 @@
+/* RESET  */
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;;
+}
+
+/* UI Background */
+main {
+    background-color: black;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Mined field */
+#field {
+    width: 100vh;
+    max-width: 70vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    flex-grow: 0;
+}
+.cell {
+    background-color: green;
+    border: solid 1px black;
+    width: 10vh;
+    max-width: 70vw;
+    height: 10vh;
+    max-height: 70vw;
+}
+.digged {
+    background-color: rgb(80, 38, 38);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.digged.mined::after {
+    content: "";
+    height: 60%;
+    width: 60%;
+    background-color: black;
+    border-radius: 50%;
+}
+[data-proximity="1"].digged::after {
+    content: "1";
+    height: 60%;
+    width: 60%;
+    color: white;
+}
+[data-proximity="2"].digged::after {
+    content: "2";
+    height: 60%;
+    width: 60%;
+    color: white;
+}
+[data-proximity="3"].digged::after {
+    content: "3";
+    height: 60%;
+    width: 60%;
+    color: white;
+}
+[data-proximity="4"].digged::after {
+    content: "4";
+    height: 60%;
+    width: 60%;
+    color: white;
+}
+[data-proximity="5"].digged::after {
+    content: "5";
+    height: 60%;
+    width: 60%;
+    color: white;
+}
+
+
+/* UI console */
+.console {
+    background-color: #2c2c2c;
+    padding: 2rem;
+    color: #d3d2d2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.console > * {
+    margin: .5rem 0;
+}
+input {
+    text-align: center;
+    padding: .25rem .5rem;
+    background-color: #d3d2d2;
+    border: none;
+    border-radius: .5rem;
+}
+.btn {
+    width: 5rem;
+    padding: .5rem 0;
+    font-weight: 900;
+    font-size: 1.5rem;
+    background-color: green;
+    border: none;
+    border-radius: 1rem;
+}
+.btn:hover {
+    transform: scale(.8);
+    cursor: pointer;
+}
+.banner {
+    padding: 1rem;
+    border-radius: .5rem;
+    background-color: #d3d2d2;
+    color: red;
+    min-width: 80%;
+}
+
