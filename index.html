@@ -12,10 +12,11 @@
 </head>
 <body>
     <main>
-        <div id="field"></div>
+        <div id="field">
+        </div>
         <div class="console">
             <h1>Mined Field</h1>
-            <label for="rows">Rows x Cols
+            <label for="rows">Dimensions
                 <select name="rows" id="rows">
                     <option value="2">2x2</option>
                     <option value="4">4x4</option>
@@ -24,12 +25,16 @@
                     <option value="10">10x10</option>
                 </select>
             </label>
-            <label for="mines">Mines 
-                <input type="number" name="mines" id="mines" min="1" max="16">
+            <label for="mines">Difficulty 
+                <select name="mines" id="mines">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
             </label>
             <button id="startBtn" class="btn">Start</button>
             <div class="banner">
-                <h2 id="results"></h2>
+                <h2>Your Score: <span id="score"></span></h2>
             </div>
         </div>
     </main>

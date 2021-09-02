@@ -7,7 +7,7 @@
 // ## VARIABLES
 const field = document.getElementById("field");
 const startBtn = document.getElementById("startBtn");
-const results = document.getElementById("results");
+const score = document.getElementById("score");
 const userRows = document.getElementById("rows");
 const userMines = document.getElementById("mines");
 let points = 0;
@@ -181,11 +181,12 @@ const digCell = (event) => {
     let diggedCell = event.target;
     console.log(diggedCell);
     if (diggedCell.classList.contains("mined")) {
-        alert("BOOOOOOOOOM!!!")
-        results.innerHTML = "You lost";
+        alert("BOOOOOOOOOM!!!");
+        field.dataset.rows = 0;
+        field.innerHTML = field.innerHTML = `<div class="container"><div class="banner"><h1 id="results">YOU LOST</h1></div></div>`;
     } else if (!diggedCell.classList.contains("digged")) {
         points += 1;
-        results.innerHTML = `Your Points: ${points}`;
+        score.innerHTML = points;
     }
     diggedCell.classList.add("digged");
 }
@@ -197,11 +198,14 @@ field.addEventListener("click", digCell);
 // ## MAIN SCRIPT
 // 6. Start the script and create field
 startBtn.addEventListener("click", () => {
-    results.innerHTML = "";
+
     let rows = parseInt(userChoosenNumber((userRows.value), 10));
     let cols = rows;
-    let minesNumber = parseInt(userChoosenNumber(userMines.value, Math.floor(rows * cols)));
-
+    let minesNumber = parseInt(userChoosenNumber(userMines.value, 3) * rows);
     points = 0;
     createMinedField(field, rows, cols, generateMines(rows * cols, minesNumber));
+    if ( points == ((rows * cols) - minesNumber) ) {
+        field.dataset.rows = 0;
+        field.innerHTML = `<div class="container"><div class="banner"><h1 id="results">YOU WON</h1></div></div>`;
+    }
 })
