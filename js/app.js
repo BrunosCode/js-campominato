@@ -29,7 +29,7 @@ const userChoosenNumber = (input, max) => {
     if ( !isNaN(userNumber) && userNumber > 0 && userNumber <= max ) {
         return userNumber;
     } else {
-        results.innerHTML = "Invalid Input";
+        score.innerHTML = "Invalid Input";
     }
 }
 
@@ -67,127 +67,103 @@ const createMinedField = (field, rows, cols, mines) => {
 
     // 3b. number of cells
     let cells = rows * cols;
-    console.log(`cells ${cells}`);
 
     // 3c. generate mined and not mined cells
     for (let i = 0; i < cells; i++) {
         if (mines.includes(i)) {
-            field.innerHTML += `<div class="cell mined"></div>`;
+            field.innerHTML += `<div class="cell mined">i</div>`;
         } else {
-            field.innerHTML += `<div data-proximity="0" class="cell"></div>`;
+            field.innerHTML += `<div data-proximity="0" class="cell">i</div>`;
         }
     }
 
-    // 3d. update data-number of the non mined cells
+    // 3d. update data-proximity of the non mined cells
     // based on their proximity with the mined ones
     let cellsList = field.childNodes;
     for(let i = 0; i < mines.length; i++){
-        console.log(`current mine ${mines[i]}`);
-        // ### Conditions based on the mine position
-        // if mine in first cell
-        if ( mines[i] / cols < 1 && (mines[i] + 1) % cols == 1 ) {
-            let proximityList = [ mines[i] + 1, mines[i] + cols, mines[i] + cols + 1];
-            console.log(proximityList);
 
-            for (let i = 0; i < proximityList.length; i++) {
-                cellsList[proximityList[i]].dataset.proximity = parseInt(cellsList[proximityList[i]].dataset.proximity) + 1;
-                console.log(`${proximityList[i]} updated`);
-            }
-        // if mine in the last cell of the first row
-        } else if ( mines[i] / cols < 1 && (mines[i] + 1) % cols == 0 ) {
-            let proximityList = [ mines[i] + 1, mines[i] + cols - 1, mines[i] + cols];
-            console.log(proximityList);
+        // boolean variable based on the conditions to verify mine position
+        let inFirstRow = mines[i] / cols < 1;
+        let inLastRow = mines[i] / cols >= rows - 1;
+        let inFirstCol = (mines[i] + 1) % cols == 1;
+        let inLastCol = (mines[i] + 1) % cols == 0;
+        
+        // index of the index of adjacent cells
+        let cellLeft = mines[i] - 1; 
+        let cellRight = mines[i] + 1; 
+        let cellTopLeft = mines[i] - cols - 1; 
+        let cellTop = mines[i] - cols; 
+        let cellTopRight = mines[i] - cols + 1; 
+        let cellBottomLeft = mines[i] + cols - 1; 
+        let cellBottom = mines[i] + cols; 
+        let cellBottomRight = mines[i] + cols + 1;
 
-            for (let i = 0; i < proximityList.length; i++) {
-                cellsList[proximityList[i]].dataset.proximity = parseInt(cellsList[proximityList[i]].dataset.proximity) + 1;
-                console.log(`${proximityList[i]} updated`);
-            }
-        // if mine in the first cell of the last row   
-        } else if ( mines[i] / cols >= ( rows - 1 ) && (mines[i] + 1) % cols == 1 ) {
-            let proximityList = [ mines[i] + 1, mines[i] - cols, mines[i] - cols + 1];
-            console.log(proximityList);
+        let proximitylist = [];
 
-            for (let i = 0; i < proximityList.length; i++) {
-                cellsList[proximityList[i]].dataset.proximity = parseInt(cellsList[proximityList[i]].dataset.proximity) + 1;
-                console.log(`${proximityList[i]} updated`);
-            }
-        // if mine in the last cell
-        } else if ( mines[i] / cols >= ( rows - 1 ) && (mines[i] + 1) % cols == 0 ) {
-            let proximityList = [ mines[i] - 1, mines[i] - cols - 1, mines[i] - cols];
-            console.log(proximityList);
+        // give back the proximityList based on mine position
+        // if the mine in first cell
+        if ( inFirstRow && inFirstCol ) {
+            proximitylist = [ cellLeft, cellRight, cellBottom, cellBottomRight ];
 
-            for (let i = 0; i < proximityList.length; i++) {
-                cellsList[proximityList[i]].dataset.proximity = parseInt(cellsList[proximityList[i]].dataset.proximity) + 1;
-                console.log(`${proximityList[i]} updated`);
-            }
-        // if mine in the first row
-        } else if ( mines[i] / cols < 1 ) {
-            let proximityList = [ mines[i] - 1, mines[i] + 1, mines[i] + cols - 1, mines[i] + cols + 1];
-            console.log(proximityList);
+        // if the mine in the last cell of the first row
+        } else if ( inFirstRow && inLastCol ) {
+            proximitylist = [ cellLeft, cellBottomLeft, cellBottom ];
 
-            for (let i = 0; i < proximityList.length; i++) {
-                cellsList[proximityList[i]].dataset.proximity = parseInt(cellsList[proximityList[i]].dataset.proximity) + 1;
-                console.log(`${proximityList[i]} updated`);
-            }
-        // if mine in the last row
-        } else if ( mines[i] / cols >= ( rows - 1 )) {
-            let proximityList = [ mines[i] - 1, mines[i] + 1, mines[i] - cols - 1, mines[i] - cols, mines[i] - cols + 1];
-            console.log(proximityList);
+        // if the mine in the first cell of the last row   
+        } else if ( inLastRow && inFirstCol ) {
+            proximitylist = [ cellRight, cellTop, cellTopRight ];
 
-            for (let i = 0; i < proximityList.length; i++) {
-                cellsList[proximityList[i]].dataset.proximity = parseInt(cellsList[proximityList[i]].dataset.proximity) + 1;
-                console.log(`${proximityList[i]} updated`);
-            }
-        // if mine in the first col   
-        } else if ( (mines[i] + 1) % cols == 1 ) {
-            let proximityList = [ mines[i] + 1, mines[i] - cols, mines[i] - cols + 1, mines[i] + cols, mines[i] + cols + 1 ];
-            console.log(proximityList);
+        // if the mine in the last cell
+        } else if ( inLastRow && inLastCol ) {
+            proximitylist = [ cellLeft, cellTopLeft, cellTop ];
 
-            for (let i = 0; i < proximityList.length; i++) {
-                cellsList[proximityList[i]].dataset.proximity = parseInt(cellsList[proximityList[i]].dataset.proximity) + 1;
-                console.log(`${proximityList[i]} updated`);
-            }
-        // if mine in the last col   
-        } else if ( (mines[i] + 1) % cols == 0 ) {
-            let proximityList = [ mines[i] - 1, mines[i] - cols, mines[i] - cols - 1, mines[i] + cols, mines[i] + cols - 1 ];
-            console.log(proximityList);
+        // if the mine in the first row
+        } else if ( inFirstRow ) {
+            proximitylist = [ cellLeft, cellRight, cellBottomLeft, cellBottom, cellBottomRight ];
 
-            for (let i = 0; i < proximityList.length; i++) {
-                cellsList[proximityList[i]].dataset.proximity = parseInt(cellsList[proximityList[i]].dataset.proximity) + 1;
-                console.log(`${proximityList[i]} updated`);
-            }
+        // if the mine in the last row
+        } else if ( inLastRow ) {
+            proximitylist = [ cellLeft, cellRight, cellBottomLeft, cellBottom, cellBottomRight ];
+
+        // if the mine in the first col   
+        } else if ( inFirstCol ) {
+            proximitylist = [ cellRight, cellTop, cellTopRight, cellBottom, cellBottomRight ];
+
+        // if the mine in the last col   
+        } else if ( inLastCol ) {
+            proximitylist = [ cellRight, cellTop, cellTopRight, cellBottom, cellBottomRight ];
+
         } else {
-            let proximityList = [ 
-                mines[i] - 1, 
-                mines[i] + 1, 
-                mines[i] - cols - 1, 
-                mines[i] - cols, 
-                mines[i] - cols + 1, 
-                mines[i] + cols - 1, 
-                mines[i] + cols, 
-                mines[i] + cols + 1];
-            console.log(proximityList);
+            proximitylist = [ cellLeft, cellRight, cellTopLeft, cellTop, cellTopRight, cellBottomLeft, cellBottom, cellBottomRight ];
 
-            for (let i = 0; i < proximityList.length; i++) {
-                cellsList[proximityList[i]].dataset.proximity = parseInt(cellsList[proximityList[i]].dataset.proximity) + 1;
-                console.log(`${proximityList[i]} updated`);
-            }
+        }
+
+        // update data proximity of the cells in the proximityList
+        for (let i = 0; i < proximityList.length; i++) {
+            cellsList[proximityList[i]].dataset.proximity = parseInt(cellsList[proximityList[i]].dataset.proximity) + 1;
         }
     }
 }
 
-// 4. Color of red the clicked cell
+// 4. Reveil if you clicked a bomb or a point
 const digCell = (event) => {
     let diggedCell = event.target;
-    console.log(diggedCell);
+
+    // 4a. if you clicked a mine => endgame
     if (diggedCell.classList.contains("mined")) {
         alert("BOOOOOOOOOM!!!");
+        // reset the grid
         field.dataset.rows = 0;
-        field.innerHTML = field.innerHTML = `<div class="container"><div class="banner"><h1 id="results">YOU LOST</h1></div></div>`;
+        // popup the results
+        field.innerHTML = field.innerHTML = `<div class="flex-center"><div class="banner"><h1 id="results">YOU LOST</h1></div></div>`;
+
+    // 4b. if you click a point update the score
     } else if (!diggedCell.classList.contains("digged")) {
         points += 1;
         score.innerHTML = points;
     }
+
+    // 4c. add class digged to reveal cell content
     diggedCell.classList.add("digged");
 }
 
@@ -201,11 +177,15 @@ startBtn.addEventListener("click", () => {
 
     let rows = parseInt(userChoosenNumber((userRows.value), 10));
     let cols = rows;
+
     let minesNumber = parseInt(userChoosenNumber(userMines.value, 3) * rows);
-    points = 0;
     createMinedField(field, rows, cols, generateMines(rows * cols, minesNumber));
+
+    // reset the score
+    points = 0;
+
     if ( points == ((rows * cols) - minesNumber) ) {
         field.dataset.rows = 0;
-        field.innerHTML = `<div class="container"><div class="banner"><h1 id="results">YOU WON</h1></div></div>`;
+        field.innerHTML = `<div class="flex-center"><div class="banner"><h1 id="results">YOU WON</h1></div></div>`;
     }
 })
