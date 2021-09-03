@@ -71,16 +71,19 @@ const createMinedField = (field, rows, cols, mines) => {
     // 3c. generate mined and not mined cells
     for (let i = 0; i < cells; i++) {
         if (mines.includes(i)) {
-            field.innerHTML += `<div class="cell mined">i</div>`;
+            field.innerHTML += `<div class="cell mined">${i}</div>`;
         } else {
-            field.innerHTML += `<div data-proximity="0" class="cell">i</div>`;
+            field.innerHTML += `<div data-proximity="0" class="cell">${i}</div>`;
         }
     }
 
     // 3d. update data-proximity of the non mined cells
     // based on their proximity with the mined ones
     let cellsList = field.childNodes;
+    console.log(`cellsList ${field.childNodes[1]}`)
     for(let i = 0; i < mines.length; i++){
+
+        console.log(`current mine ${mines[i]}`);
 
         // boolean variable based on the conditions to verify mine position
         let inFirstRow = mines[i] / cols < 1;
@@ -98,46 +101,45 @@ const createMinedField = (field, rows, cols, mines) => {
         let cellBottom = mines[i] + cols; 
         let cellBottomRight = mines[i] + cols + 1;
 
-        let proximitylist = [];
+        let proximityList = [];
 
         // give back the proximityList based on mine position
         // if the mine in first cell
         if ( inFirstRow && inFirstCol ) {
-            proximitylist = [ cellLeft, cellRight, cellBottom, cellBottomRight ];
+            proximityList = [ cellRight, cellBottom, cellBottomRight ];
 
         // if the mine in the last cell of the first row
         } else if ( inFirstRow && inLastCol ) {
-            proximitylist = [ cellLeft, cellBottomLeft, cellBottom ];
+            proximityList = [ cellLeft, cellBottomLeft, cellBottom ];
 
         // if the mine in the first cell of the last row   
         } else if ( inLastRow && inFirstCol ) {
-            proximitylist = [ cellRight, cellTop, cellTopRight ];
+            proximityList = [ cellRight, cellTop, cellTopRight ];
 
         // if the mine in the last cell
         } else if ( inLastRow && inLastCol ) {
-            proximitylist = [ cellLeft, cellTopLeft, cellTop ];
+            proximityList = [ cellLeft, cellTopLeft, cellTop ];
 
         // if the mine in the first row
         } else if ( inFirstRow ) {
-            proximitylist = [ cellLeft, cellRight, cellBottomLeft, cellBottom, cellBottomRight ];
+            proximityList = [ cellLeft, cellRight, cellBottomLeft, cellBottom, cellBottomRight ];
 
         // if the mine in the last row
         } else if ( inLastRow ) {
-            proximitylist = [ cellLeft, cellRight, cellBottomLeft, cellBottom, cellBottomRight ];
+            proximityList = [ cellLeft, cellRight, cellTopLeft, cellTop, cellTopRight ];
 
         // if the mine in the first col   
         } else if ( inFirstCol ) {
-            proximitylist = [ cellRight, cellTop, cellTopRight, cellBottom, cellBottomRight ];
+            proximityList = [ cellRight, cellTop, cellTopRight, cellBottom, cellBottomRight ];
 
         // if the mine in the last col   
         } else if ( inLastCol ) {
-            proximitylist = [ cellRight, cellTop, cellTopRight, cellBottom, cellBottomRight ];
+            proximityList = [ cellRight, cellTop, cellTopRight, cellBottom, cellBottomRight ];
 
         } else {
-            proximitylist = [ cellLeft, cellRight, cellTopLeft, cellTop, cellTopRight, cellBottomLeft, cellBottom, cellBottomRight ];
-
+            proximityList = [ cellLeft, cellRight, cellTopLeft, cellTop, cellTopRight, cellBottomLeft, cellBottom, cellBottomRight ];
         }
-
+        
         // update data proximity of the cells in the proximityList
         for (let i = 0; i < proximityList.length; i++) {
             cellsList[proximityList[i]].dataset.proximity = parseInt(cellsList[proximityList[i]].dataset.proximity) + 1;

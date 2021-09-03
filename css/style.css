@@ -41,16 +41,22 @@ main {
 .cell {
     background-color: green;
     border: solid 1px black;
-    display: flex;
+    padding: .25rem;
+    /* display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
+    position: relative;
 }
 .cell::after {
     font-family: "Font Awesome 5 Free"; 
     font-weight: 900; 
     content: "\f55f";
     color: darkgreen;
-    font-size: 2rem
+    font-size: 2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 .digged {
     background-color: rgb(80, 38, 38);
@@ -61,6 +67,10 @@ main {
     content: "\f1e2";
     font-size: 2rem;
     color: black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 [data-proximity].digged::after {
     content: "";
