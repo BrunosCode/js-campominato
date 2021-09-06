@@ -134,7 +134,8 @@ startBtn.addEventListener("click", () => {
     let cols = rows;
 
     // 4b. generate Mines Indexs
-    let minesMultiplier = (16 * rows) / 10;
+    // get a proportionate number of mines in the smaller fields
+    let minesMultiplier = ((16 * rows) / 10) / 3;
     let minesNumber = parseInt(userChoosenNumber(userMines.value, 3) * minesMultiplier);
     let mines = generateMines(rows * cols, minesNumber);
 
