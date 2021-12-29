@@ -50,7 +50,7 @@ main {
 .cell::after {
     font-family: "Font Awesome 5 Free"; 
     font-weight: 900; 
-    content: "\f55f";
+    content: "\f06c";
     color: darkgreen;
     font-size: 2rem;
     position: absolute;
@@ -59,7 +59,7 @@ main {
     transform: translate(-50%, -50%);
 }
 .digged {
-    background-color: rgb(80, 38, 38);
+    background-color: rgb(87, 47, 47);
 }
 .digged.mined::after {
     font-family: "Font Awesome 5 Free"; 
@@ -72,27 +72,32 @@ main {
     left: 50%;
     transform: translate(-50%, -50%);
 }
-[data-proximity].digged::after {
+[data-proximity="0"].digged::after {
     content: "";
-    color: white;
 }
 [data-proximity="1"].digged::after {
     content: "1";
+    color: white;
 }
 [data-proximity="2"].digged::after {
     content: "2";
+    color: white;
 }
 [data-proximity="3"].digged::after {
     content: "3";
+    color: white;
 }
 [data-proximity="4"].digged::after {
     content: "4";
+    color: white;
 }
 [data-proximity="5"].digged::after {
     content: "5";
+    color: white;
 }
 [data-proximity="6"].digged::after {
     content: "6";
+    color: white;
 }
 
 /* UI console */

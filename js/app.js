@@ -120,12 +120,48 @@ const genarateProximityData = (rows, cols, mines) => {
     return proximityData;
 }
 
-// ## MAIN SCRIPT
-let points, maximumScore;
+const playGame = (event) => {
+    let diggedCell = event.target;
+    let endGame = "";
 
-// ### START GAME
-// 4. Start the script and create field
-startBtn.addEventListener("click", () => {
+    // 5a. if you clicked a mine => endgame
+    if (diggedCell.classList.contains("mined")) {
+        document.querySelectorAll(".cell").forEach(cell => cell.classList.add("digged"));
+        alert("BOOOOOOOOOM!!!");
+        endGame = "lose";
+
+    // 5b. if you click a point update the score
+    } else if (!diggedCell.classList.contains("digged")) {
+        points += 1;
+        score.innerHTML = points;
+    }
+
+    // 5c. add class digged to reveal cell content
+    diggedCell.classList.add("digged");
+
+    // 5d. if user get the maximum score end the game
+    if ( points == maximumScore ) {
+        endGame = "won";
+    }
+
+
+// ### END GAME
+    // 6. if endGame is not a empty string end the game
+    if ( endGame ) {
+        field.removeEventListener("click", playGame);
+
+        if ( endGame === "won" ) {
+            score.innerHTML = `<h3>YOU WON</h3>`;
+        }
+        if ( endGame === "lose" ) {
+            score.innerHTML = `<h3>YOU LOST</h3>`;
+        }
+        endGame = "";
+    }
+}
+
+const startGame = () => {
+    field.dataset.rows = 0
     // 4a. get field dimension from the user
     let rows = userChoosenNumber((userRows.value), 10);
     if (rows == false) {
@@ -166,45 +202,16 @@ startBtn.addEventListener("click", () => {
     points = 0;
     maximumScore = (rows * cols) - minesNumber; 
 
-});
+    // ### PLAY 
+    // 5. Add event listener to the field and activate script for each cells clicked
+    field.addEventListener("click", playGame);
 
-// ### PLAY 
-// 5. Add event listener to the field and activete script for each cells clicked
-field.addEventListener("click", (event) => {
-    let diggedCell = event.target;
-    let endGame = "";
+}
 
-    // 5a. if you clicked a mine => endgame
-    if (diggedCell.classList.contains("mined")) {
-        alert("BOOOOOOOOOM!!!");
-        endGame = "lose";
+// ## MAIN SCRIPT
+let points, maximumScore;
 
-    // 5b. if you click a point update the score
-    } else if (!diggedCell.classList.contains("digged")) {
-        points += 1;
-        score.innerHTML = points;
-    }
-
-    // 5c. add class digged to reveal cell content
-    diggedCell.classList.add("digged");
-
-    // 5d. if user get the maximum score end the game
-    if ( points == maximumScore ) {
-        endGame = "won";
-    }
-
-
-// ### END GAME
-    // 6. if endGame is not a empty string end the game
-    if ( endGame ) {
-        field.dataset.rows = 0;
-        if ( endGame === "won" ) {
-            field.innerHTML = `<div class="flex-center"><div class="banner"><h1 id="results">YOU WON</h1></div></div>`;
-        }
-        if ( endGame === "lose" ) {
-            field.innerHTML = `<div class="flex-center"><div class="banner"><h1 id="results">YOU LOST</h1></div></div>`;
-        }
-        endGame = "";
-    }
-});
+// ### START GAME
+// 4. Start the script and create field
+startBtn.addEventListener("click", startGame);
 
